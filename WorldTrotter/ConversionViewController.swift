@@ -31,24 +31,35 @@ class ConversionViewController: UIViewController {
     
     func updateCelsiusLabel() {
         if let value = celsiusValue {
-            celsiusLabel.text = "\(value)"
+            celsiusLabel.text = numberFormatter.stringFromNumber(value)
         } else {
             celsiusLabel.text = "???"
         }
     }
     
     @IBAction func fahrenheitFieldEditingChanged(textField: UITextField) {
-        if let text = textField.text where !text.isEmpty {
-            celsiusLabel.text = text
+        
+        if let text = textField.text, value = Double(text) {
+            fahrenheitValue = value
+        
         }
         else {
-            celsiusLabel.text = "???"
+            fahrenheitValue = nil
         }
     }
     
     @IBAction func dismissKeyboard(sender: AnyObject) {
         textField.resignFirstResponder()
     }
+    
+    
+    let numberFormatter: NSNumberFormatter = {
+        let nf = NSNumberFormatter()
+        nf.numberStyle = .DecimalStyle
+        nf.minimumFractionDigits = 0
+        nf.maximumFractionDigits = 1
+        return nf
+    }()
     
     
 }
